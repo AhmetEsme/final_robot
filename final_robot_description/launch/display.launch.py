@@ -13,6 +13,13 @@ def generate_launch_description():
     )
 
 
+    rviz_config_path = os.path.join(
+        get_package_share_directory('final_robot_description'),
+        'rviz',
+        'urdf_config.rviz'
+    )
+
+
     return LaunchDescription([
         Node(
             package='robot_state_publisher',
@@ -26,5 +33,7 @@ def generate_launch_description():
         Node(
             package='rviz2',
             executable='rviz2',
+            arguments=['-d', rviz_config_path]
+            
         )
     ])
