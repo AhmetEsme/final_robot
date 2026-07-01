@@ -25,8 +25,11 @@
       <box size="${arm_base_length} ${arm_base_width} ${arm_base_height}"/>
       </geometry>
       <origin xyz="0 0 ${arm_base_height/2}" rpy="0 0 0"/>
-   </collision>
-   <xacro:inertial_box mass="5.0" x="${arm_base_length}" y="${arm_base_width}" z="${arm_base_height}"/>
+    </collision>
+    <xacro:inertial_box mass="5.0" x="${arm_base_length}" y="${arm_base_width}" z="${arm_base_height}"/>
+    <gazebo reference="arm_base_link">
+      <material>Gazebo/Orange</material>
+    </gazebo>
   </link>
 
   <link name="forearm_link">
@@ -46,6 +49,9 @@
       <origin xyz="0 0 ${forearm_length/2}" rpy="0 0 0"/>
     </collision>
     <xacro:inertial_cylinder mass="0.3" radius="${forearm_radius}" length="${forearm_length}"/>
+    <gazebo reference="forearm_link">
+      <material>Gazebo/Blue</material>
+    </gazebo>
   </link>
 
   
@@ -67,6 +73,9 @@
       <origin xyz="0 0 ${hand_length/2}" rpy="0 0 0"/>
     </collision>
     <xacro:inertial_cylinder mass="0.3" radius="${hand_radius}" length="${hand_length}"/>
+    <gazebo reference="hand_link">
+      <material>Gazebo/Orange</material>
+    </gazebo>
   </link>
 
 
