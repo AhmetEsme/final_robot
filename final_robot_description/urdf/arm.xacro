@@ -20,6 +20,13 @@
        <color rgba= "1 0.5 0 1"/>
       </material>
     </visual>
+    <collision>
+      <geometry>
+      <box size="${arm_base_length} ${arm_base_width} ${arm_base_height}"/>
+      </geometry>
+      <origin xyz="0 0 ${arm_base_height/2}" rpy="0 0 0"/>
+   </collision>
+   <xacro:inertial_box mass="5.0" x="${arm_base_length}" y="${arm_base_width}" z="${arm_base_height}"/>
   </link>
 
   <link name="forearm_link">
@@ -32,7 +39,16 @@
         <color rgba= "0 0 1 1"/>
       </material>
     </visual>
+    <collision>
+      <geometry>
+      <cylinder radius="${forearm_radius}" length="${forearm_length}"/>
+      </geometry>
+      <origin xyz="0 0 ${forearm_length/2}" rpy="0 0 0"/>
+    </collision>
+    <xacro:inertial_cylinder mass="0.3" radius="${forearm_radius}" length="${forearm_length}"/>
   </link>
+
+  
 
    <link name="hand_link">
     <visual>
@@ -44,6 +60,13 @@
         <color rgba= "1 0.5 0 1"/>
       </material>
     </visual>
+    <collision>
+      <geometry>
+       <cylinder radius="${hand_radius}" length="${hand_length}"/>
+      </geometry>
+      <origin xyz="0 0 ${hand_length/2}" rpy="0 0 0"/>
+    </collision>
+    <xacro:inertial_cylinder mass="0.3" radius="${hand_radius}" length="${hand_length}"/>
   </link>
 
 
