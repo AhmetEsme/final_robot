@@ -27,10 +27,11 @@
       <origin xyz="0 0 ${arm_base_height/2}" rpy="0 0 0"/>
     </collision>
     <xacro:inertial_box mass="5.0" x="${arm_base_length}" y="${arm_base_width}" z="${arm_base_height}"/>
+  </link>
+
     <gazebo reference="arm_base_link">
       <material>Gazebo/Orange</material>
     </gazebo>
-  </link>
 
   <link name="forearm_link">
     <visual>
@@ -107,6 +108,30 @@
       <limit lower="0" upper="${pi/2}" effort="100" velocity="100"/>
       <dynamics friction="0.05" damping="0.1"/>
     </joint>
+
+    <gazebo>
+     <plugin filename="gz-sim-joint-state-publisher-system"
+        name="gz::sim::systems::JointStatePublisher">
+     <joint_name>arm_base_to_forearm</joint_name>
+     <joint_name>forearm_to_hand</joint_name>
+     </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-position-controller-system"
+        name="gz::sim::systems::JointPositionController">
+       <joint_name>arm_base_to_forearm</joint_name>
+       <p_gain>5.0</p_gain>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="gz-sim-joint-position-controller-system"
+         name="gz::sim::systems::JointPositionController">
+       <joint_name>forearm_to_hand</joint_name>
+       <p_gain>3.0</p_gain>
+      </plugin>
+    </gazebo>
     
 
     </robot>
