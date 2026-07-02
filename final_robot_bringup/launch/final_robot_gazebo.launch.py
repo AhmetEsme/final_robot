@@ -20,6 +20,13 @@ def generate_launch_description():
         'gz_sim.launch.py'
     )
 
+    bridge_config_path = os.path.join(
+        get_package_share_directory('final_robot_bringup'),
+        'config',
+        'gazebo_bridge.yaml'
+    )
+    
+    
     return LaunchDescription([
         Node(
             package='robot_state_publisher',
@@ -37,5 +44,12 @@ def generate_launch_description():
             package='ros_gz_sim',
             executable='create',
             arguments=['-topic', 'robot_description', '-name', 'final_robot']
+        ),
+
+        Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=['--ros-args', '-p', f'config_file:={bridge_config_path}']
         )
+
     ])
