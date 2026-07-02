@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- PROPERTIES -->
+  <xacro:property name="base_length" value="0.6"/>
+  <xacro:property name="base_width" value="0.4"/>
+  <xacro:property name="base_height" value="0.2"/>
+  <xacro:property name="wheel_radius" value="0.1"/>
+  <xacro:property name="wheel_length" value="0.05"/>
+  <xacro:property name="caster_wheel_radius" value="0.05"/>
+
+  <!-- BASE FOOTPRINT -->
+  <link name="base_footprint"/>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- BASE LINK -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="${base_length} ${base_width} ${base_height}"/>
+      </geometry>
+      <origin xyz="0 0 ${base_height/2}" rpy="0 0 0"/>
+      <material name="blue">
+        <color rgba="0 0 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${base_length} ${base_width} ${base_height}"/>
+      </geometry>
+      <origin xyz="0 0 ${base_height/2}" rpy="0 0 0"/>
+    </collision>
+    <xacro:inertial_box mass="1.0" x="${base_length}" y="${base_width}" z="${base_height}"/>
+  </link>
+
+  <gazebo reference="base_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <!-- SOL TEKERLEK -->
+  <link name="left_wheel_link">
+    <visual>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="dark_grey">
+        <color rgba="0.2 0.2 0.2 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+    </collision>
+    <xacro:inertial_cylinder mass="0.2" radius="${wheel_radius}" length="${wheel_length}"/>
+  </link>
+
+  <joint name="left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_link"/>
+    <origin xyz="0 ${(base_width+wheel_length)/2} 0" rpy="${-pi/2} 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <gazebo reference="left_wheel_link">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+  <!-- SAĞ TEKERLEK -->
+  <link name="right_wheel_link">
+    <visual>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+      <material name="dark_grey">
+        <color rgba="0.2 0.2 0.2 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+      </geometry>
+    </collision>
+    <xacro:inertial_cylinder mass="0.2" radius="${wheel_radius}" length="${wheel_length}"/>
+  </link>
+
+  <joint name="right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_link"/>
+    <origin xyz="0 ${-(base_width+wheel_length)/2} 0" rpy="${-pi/2} 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <gazebo reference="right_wheel_link">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+  <!-- CASTER WHEEL -->
+  <link name="caster_wheel_link">
+    <visual>
+      <geometry>
+        <sphere radius="${caster_wheel_radius}"/>
+      </geometry>
+      <material name="dark_grey">
+        <color rgba="0.2 0.2 0.2 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="${caster_wheel_radius}"/>
+      </geometry>
+    </collision>
+    <xacro:inertial_sphere mass="0.1" radius="${caster_wheel_radius}"/>
+  </link>
+
+  <joint name="caster_wheel_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="caster_wheel_link"/>
+    <origin xyz="${-base_length/2+caster_wheel_radius} 0 ${-(base_height/2-caster_wheel_radius)}" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="caster_wheel_link">
+    <material>Gazebo/DarkGrey</material>
+    <mu1 value="0.1"/>
+    <mu2 value="0.1"/>
+  </gazebo>
+
+  <!-- DIFF DRIVE PLUGIN -->
+  <gazebo>
+    <plugin filename="gz-sim-diff-drive-system"
+            name="gz::sim::systems::DiffDrive">
+      <left_joint>left_wheel_joint</left_joint>
+      <right_joint>right_wheel_joint</right_joint>
+      <wheel_separation>${base_width+wheel_length}</wheel_separation>
+      <wheel_radius>${wheel_radius}</wheel_radius>
+      <odom_publish_frequency>10</odom_publish_frequency>
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_footprint</child_frame_id>
+    </plugin>
+  </gazebo>
+
+  <!-- JOINT STATE PUBLISHER PLUGIN -->
+  <gazebo>
+    <plugin filename="gz-sim-joint-state-publisher-system"
+            name="gz::sim::systems::JointStatePublisher">
+      <joint_name>left_wheel_joint</joint_name>
+      <joint_name>right_wheel_joint</joint_name>
+    </plugin>
+  </gazebo>
+
+</robot>

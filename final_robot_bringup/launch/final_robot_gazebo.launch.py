@@ -11,7 +11,7 @@ def generate_launch_description():
     urdf_path = os.path.join(
         get_package_share_directory('final_robot_description'),
         'urdf',
-        'standalone_arm.urdf.xacro'
+        'final_robot_full.urdf.xacro'
     )
 
     gazebo_launch_path = os.path.join(
