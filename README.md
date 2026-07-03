@@ -1,5 +1,10 @@
 # final_robot
 
+![demo](demo.gif)
+
+## Node Graph / ノードグラフ
+![rqt_graph](rqt_graph.png)
+
 ## ROS2 Level 2 Final Project — Robotic Arm on Mobile Base
 
 A differential-drive mobile robot with a 2-DOF robotic arm, simulated in Gazebo Harmonic with ROS2 Jazzy.
