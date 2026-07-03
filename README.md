@@ -1,4 +1,3 @@
-![final_robot](robot_screenshot.png)
 ![demo](demo.gif)
 # final_robot
 
