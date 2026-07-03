@@ -1,4 +1,5 @@
 ![final_robot](robot_screenshot.png)
+![demo](demo.gif)
 # final_robot
 
 ## ROS2 Level 2 Final Project — Robotic Arm on Mobile Base
