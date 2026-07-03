@@ -1,6 +1,3 @@
-![demo](demo.gif)
-## Node Graph / ノードグラフ
-![rqt_graph](rqt_graph.png)
 # final_robot
 
 ## ROS2 Level 2 Final Project — Robotic Arm on Mobile Base
